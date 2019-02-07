@@ -1,0 +1,117 @@
+.bg-light.text-dark
+  .container
+    / Bootstrap の先頭狭いんだけど何とかならないの
+    br/
+
+    .row
+      .col-s12
+        h1
+          = 'LINE Parrot β'
+    .row
+      .col-s12
+        h4.text-danger
+          = @message
+    hr/
+
+  .container
+    .row
+      .col-s6
+        / TODO: バリデーション
+        = form_with url: '/responses', local: true, method: :post, skip_enforcing_utf8: true do |f|
+          .form-group
+            = 'ユーザが送信する言葉は？'
+            = f.text_field :user_message, class: 'form-control', id: 'searchForm'
+          .form-group
+            = 'あみこが返してくる言葉は？'
+            = f.text_field :reply_message, class: 'form-control', id: 'searchForm'
+          .form-group
+            = f.submit '新規登録', class: 'btn btn-primary btn-lg', name: nil
+
+    hr/
+
+    .row
+      .col-s6
+        / TODO: バリデーション
+        = form_with url: '/responses', local: true, method: :delete, skip_enforcing_utf8: true do |f|
+          .form-group
+            = '削除したいデータNo.'
+            = f.number_field :delete_id, class: 'form-control', id: 'searchForm'
+          .form-group
+            = f.submit '削除', class: 'btn btn-danger btn-lg', name: nil
+
+    hr/
+
+    .row
+      .col-s12
+        h2
+          = '登録済みの言葉（手動登録可）'
+
+        br/
+
+        table.table
+          thead
+            tr
+              th scope="col"
+                = 'No.'
+              th scope="col"
+                = 'ユーザが送信する言葉'
+              th scope="col"
+                = 'あみこが返してくる言葉'
+          tbody
+            - @records.each do |record|
+              tr
+                td
+                  = record.id
+                td
+                  = record.user_message
+                td
+                  = record.reply_message
+
+    hr/
+
+    .row
+      .col-s12
+        h2
+          = '登録済みの言葉（こっちで登録したやつ）'
+
+        br/
+
+        table.table
+          thead
+            tr
+              th scope="col"
+                = 'ユーザが送信する言葉'
+              th scope="col"
+                = 'あみこが返してくる言葉'
+          tbody
+            tr
+              td
+                = 'ラジ館マップ'
+              td
+                = 'ラジ館の見取り図（画像）'
+            tr
+              td
+                = 'ラジ館図面'
+              td
+                = 'ラジ館の棚番ベースの見取り図（画像）'
+            tr
+              td
+                = 'ラジ館棚番'
+              td
+                = 'ラジ館の商品ごとの棚番号（画像）'
+
+    hr/
+
+    .row
+      .col-s12
+        h3
+          = 'その他'
+        p
+          = '画像を投げつけるとその画像に関する情報をいろいろ返してくれます'
+
+    .row
+      .col-s12
+        h4
+          = '友だち登録への道'
+        p
+          = image_tag 'line_bot_qrcode.png'
