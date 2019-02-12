@@ -1,4 +1,5 @@
 # TODO: TOOOOOOOOO FAT CONTROLLER
+# require 'line/bot' must be written explicitly
 require 'line/bot'
 
 class LineMeController < ApplicationController
