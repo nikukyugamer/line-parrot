@@ -17,10 +17,10 @@ class LineMeController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          if /\A([a-zA-Z0-9]+-)+(|S|D|R)[0-9]+\z/ =~ event.message['text']
+          if /\A([a-zA-Z0-9]+)\z/ =~ event.message['text']
             message = {
               type: 'text',
-              text: "#{gname(event.message['text'])} \n #{main_image(event.message['text'])}",
+              text: 'a-zA-z0-9!!!',
             }
           elsif event.message['text'] == 'おはよう'
             message = {
@@ -126,33 +126,6 @@ class LineMeController < ApplicationController
     end
 
     'OK'
-  end
-
-  # TODO: あとでモデルに移すこと
-  def main_image(product_code)
-    uri = 'http://192.168.160.199:38000'
-    conn = Faraday::Connection.new(url: uri) do |builder|
-      builder.use Faraday::Request::UrlEncoded
-      builder.use Faraday::Adapter::NetHttp
-    end
-
-    response = conn.get "/api/v1/images/#{product_code}"
-    ret = JSON.parse(response.body)
-
-    ret['main_image']
-  end
-
-  def gname(product_code)
-    uri = 'http://192.168.160.199:38000'
-    conn = Faraday::Connection.new(url: uri) do |builder|
-      builder.use Faraday::Request::UrlEncoded
-      builder.use Faraday::Adapter::NetHttp
-    end
-
-    response = conn.get "/api/v1/images/#{product_code}"
-    ret = JSON.parse(response.body)
-
-    ret['gname']
   end
 
   private
